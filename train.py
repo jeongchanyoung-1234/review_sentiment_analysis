@@ -14,8 +14,7 @@ def define_argparse():
     p = argparse.ArgumentParser()
 
     p.add_argument('--model_fn', required=True)
-    p.add_argument('--file_path', type=str,
-                   default='C:/Users/JCY/3-nlp_basics/05-text_classification/review.sorted.uniq.refined.tok.shuf.train.tsv')
+    p.add_argument('--file_path', type=str, required=True)
 
     p.add_argument('--gpu_id', type=int, default= 0 if torch.cuda.is_available() else -1)
     p.add_argument('--batch_size', type=int, default=64)
