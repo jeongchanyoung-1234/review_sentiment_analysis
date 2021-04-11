@@ -23,6 +23,11 @@ def define_argparse():
     p.add_argument('--train_ratio', type=float, default=.8)
     p.add_argument('--verbose', type=int, default=2)
 
+    # rnn
+    p.add_argument('--emb_dim', type=int, default=32)
+    p.add_argument('--hidden_size', type=int, default=32)
+    p.add_argument('--n_layers', type=int, default=3)
+
     config = p.parse_args()
 
     return config
@@ -43,7 +48,7 @@ def main(config) :
     input_size = len(dataloader.text.vocab)
     n_classes = len(dataloader.label.vocab)
 
-    model = RNNclassifier(input_size, 32, 32, 4, n_classes, .2)
+    model = RNNclassifier(input_size, config.emb_dim, config.hidden_size, config.n_layers, n_classes, .2)
     loss = nn.NLLLoss() # expect 1d tensor
     optimizer = optim.Adam(model.parameters())
 
