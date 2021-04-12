@@ -116,13 +116,13 @@ class KerasLikeEngine(Engine) :
             pbar = ProgressBar(bar_format=None, ncols=120)
             pbar.attach(val_engine, ['loss', 'accuracy'])
 
-            @val_engine.on(Events.EPOCH_COMPLETED)
-            def print_logs(engine) :
-                print('        Valid - Accuracy: {:.4f} Loss: {:.4f} Lowest_loss={:.4f}'.format(
-                    engine.state.metrics['accuracy'],
-                    engine.state.metrics['loss'],
-                    engine.best_loss,
-                ))
+            # @val_engine.on(Events.EPOCH_COMPLETED)
+            # def print_logs(engine) :
+            #     print('        Valid - Accuracy: {:.4f} Loss: {:.4f} Lowest_loss={:.4f}'.format(
+            #         engine.state.metrics['accuracy'],
+            #         engine.state.metrics['loss'],
+            #         engine.best_loss,
+            #     ))
 
     @staticmethod
     def check_best(engine) :
@@ -138,6 +138,14 @@ class KerasLikeEngine(Engine) :
             'config' : config,
             **kwargs
         }, config.model_fn)
+
+    @staticmethod
+    def print_logs(engine) :
+        print('        Valid - Accuracy: {:.4f} Loss: {:.4f} Lowest_loss={:.4f}'.format(
+            engine.state.metrics['accuracy'],
+            engine.state.metrics['loss'],
+            engine.best_loss,
+        ))
 
 
 class Trainer :
@@ -162,6 +170,9 @@ class Trainer :
                                      KerasLikeEngine.check_best)
         val_engine.add_event_handler(Events.EPOCH_COMPLETED,
                                      KerasLikeEngine.save_model, train_engine, self.config)
+        val_engine.add_event_handler(Events.EPOCH_COMPLETED,
+                                     KerasLikeEngine.print_logs, val_engine)
+
 
         # running
         train_engine.run(train_loader, max_epochs=self.config.n_epochs)
