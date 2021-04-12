@@ -8,10 +8,12 @@
   - CNN 기반 모델을 추가하였습니다.
   - template이 각 epoch의 best loss를 제대로 반영하도록 trainer.py를 수정하였습니다.
 
+
 ## 사용법
 ```
 python train.py --model_fn modle.pth --model_name rnn --file_path ./review.txt --batch_size 128 --n_epochs 500 --train_ratio .8 --emb_dim 64
 ```
+
 
 ## Parameter
 ### 1. model_fn(필수)
@@ -40,7 +42,7 @@ python train.py --model_fn modle.pth --model_name rnn --file_path ./review.txt -
 - cnn레이어의 윈도우 크기를 지정합니다. cnn층위에서 각각 다른 크기의 윈도우를 사용하여 단어의 출현 패턴을 파악할 수 있습니다. 디폴트는 [2, 3, 4]입니다.
 ### 12. n_filters(cnn)
 - cnn레이어의 커널 개수를 지정합니다. 디폴트는 32입니다.
-### 13. use_padding(cnn)
-- 현재 지원하지 않습니다.
-### 14. use_batchnorm(cnn)
+### 13. use_batchnorm(cnn)
 - 배치 정규화 사용 여부를 결정합니다. 디폴트는 True이며 False로 지정 시 dropout을 사용합니다.
+### 14. use_padding(cnn)
+- 현재 지원하지 않습니다.
